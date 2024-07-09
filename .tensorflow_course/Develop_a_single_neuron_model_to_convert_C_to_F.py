@@ -25,7 +25,14 @@ y_train = temp_df['Fahrenheit']
 # print(x_train.shape, y_train.shape)
 
 model = tf.keras.Sequential()
-model.add(tf.keras.layers.Dense(units = 1, input_shape = (1,)))
+# Chỉ một neuron 
+# model.add(tf.keras.layers.Dense(units = 1, input_shape = (1,)))
+
+# 3 lớp ẩn, lớp thứ nhất và thứ 2 là 5 node(5 neuron), lớp thứ 3 chỉ có 1 đầu ra
+model.add(tf.keras.layers.Dense(units = 5, input_shape = (1,)))
+model.add(tf.keras.layers.Dense(units = 5, input_shape = (1,)))
+model.add(tf.keras.layers.Dense(units = 1))
+
 # print(model.summary())
 model.compile(optimizer = tf.keras.optimizers.Adam(1.0), loss = 'mean_squared_error')
 epochs_hits = model.fit(x_train, y_train, epochs = 100)
@@ -44,6 +51,6 @@ epochs_hits = model.fit(x_train, y_train, epochs = 100)
 weight = model.get_weights()
 
 # Dự đoán với 1 giá trị ngẫu nhiên
-temp_C = -32
+temp_C = 0
 temp_F = model.predict(np.array([temp_C])) # Tensor chỉ chấp nhận giá trị numpy
 print(temp_F)
