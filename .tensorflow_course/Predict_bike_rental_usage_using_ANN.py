@@ -15,6 +15,8 @@ from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from math import sqrt
 
 """
+
+Dự đoán số lượng người thuê xe đạp công cộng dựa trên các dữ liệu đã có 
 Data Description:
 
 instant: record index
@@ -120,6 +122,7 @@ epoch_hits = model.fit(x_train, y_train, epochs = 20, batch_size = 50, validatio
 
 # Đánh giá mô hình
 # In các thông tin thu được sau mỗi lần huấn luyện
+# Biểu đồ này hai đường phải xêm xêm nhau, không được chênh nhau quá xa, nếu như vậy thì dẫn đến có thể là overfit hoặc model chưa đủ tốt
 print(epoch_hits.history.keys())
 plt.plot(epoch_hits.history['loss'])
 plt.plot(epoch_hits.history['val_loss'])
