@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 
-
+# Google colab: https://colab.research.google.com/drive/1Ig3XuHBid7EtCshQCrtd5OhYo1xkTyNC
 diabetes_df = pd.read_csv(".tensorflow_course\\assests\\diabetes.csv")
 # print(diabetes_df)
 # print(diabetes_df.describe())

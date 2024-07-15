@@ -16,6 +16,8 @@ from sklearn.metrics import classification_report
 ### VISUAL CONVOLUTION NEURON NETWORK 2D
 # https://setosa.io/ev/image-kernels/
 
+# Google colab: https://colab.research.google.com/drive/1mORGCmhENEznB2x-dslun44FQ3Nb5vtI
+
 """
 Fashion training set consists of 70,000 images divided into 60,000 training and 10,000 testing samples. Dataset sample consists of 28x28 grayscale image, associated with a label from 10 classes.
 
