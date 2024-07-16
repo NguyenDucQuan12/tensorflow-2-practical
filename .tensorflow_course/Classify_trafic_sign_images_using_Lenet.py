@@ -189,7 +189,7 @@ plt.legend()
 plt.show()
 
 # dự đoán với bộ thử nghiệm
-predicted_classes = LeNet.predict_classes(X_test_gray_norm)
+# predicted_classes = LeNet.predict_classes(X_test_gray_norm) #đã lỗi thời, ko còn dùng được nữa
 
 predict_x=LeNet.predict(X_test_gray_norm) 
 predicted_classes=np.argmax(predict_x,axis=1)
