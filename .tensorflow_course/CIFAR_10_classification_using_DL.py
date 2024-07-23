@@ -156,7 +156,6 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns
 
 cm = confusion_matrix(predicted_classes, y_test)
-cm
 plt.figure(figsize = (10, 10))
 sns.heatmap(cm, annot = True)
 plt.show()
