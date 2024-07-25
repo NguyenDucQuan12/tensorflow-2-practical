@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import tensorflow_datasets as tfds  # pip install tensorflow-datasets
 
 
-from tensorflow.keras.layers import Conv2D, Dense, MaxPool2D, Flatten, BatchNormalization, InputLayer
+from tensorflow.keras.layers import Conv2D, Dense, MaxPool2D, Flatten, BatchNormalization, InputLayer, Dropout
 
 # Tải dataset và thông tin của dataset, shuffle_files=True thì mỗi lần truy cập dữ liệu thì nó sẽ trộn ngẫu nhiên
 dataset, dataset_info = tfds.load("malaria", with_info=True, split=["train[:80%]", "train[80%:90%]", "train[90%:]"], shuffle_files=True)
@@ -136,20 +136,24 @@ test_dataset = (test_dataset
 # Tạo một model tuần tự với các lớp theo thứ tự
 # 1 lớp tích chập 2D có 6 bộ lọc với kích thước mỗi bộ lọc là 3x3, bước nhảy là một, hàm kích hoạt là relu và có đầu vào là hình ảnh màu (224,224,3)
 # Tiếp theo là lớp maxpooling nhằm giảm kích thước, với kích thước 2x2 và bước nhảy là 2
+DROPOUT_RATE = 0.3
+REGULARIZATION_RATE = 0.2
 model = tf.keras.Sequential([
    InputLayer(shape = (224,224,3)),
-   Conv2D(6, (3,3), strides = 1, padding = 'valid',  activation = 'relu'),
+   Conv2D(6, (3,3), strides = 1, padding = 'valid',  activation = 'relu', kernel_regularizer = tf.keras.regularizers.L2(REGULARIZATION_RATE)),
    # chuẩn hóa hàng loạt
    BatchNormalization(),
    MaxPool2D(pool_size=(2, 2),strides= 2),
+   Dropout(rate = DROPOUT_RATE),
 
-   Conv2D(10, (3,3), strides = 1, padding = 'valid',  activation = 'relu'),
+   Conv2D(10, (3,3), strides = 1, padding = 'valid',  activation = 'relu',kernel_regularizer = tf.keras.regularizers.L2(REGULARIZATION_RATE)),
    BatchNormalization(),
    MaxPool2D(pool_size=(2, 2),strides= 2),
     # Làm phẳng các tính năng thu được để đưa vào lớp Dense
    Flatten(),
    Dense(50  , activation = "relu"),
    BatchNormalization(),
+   Dropout(rate = DROPOUT_RATE),
    Dense(10, activation = "relu"),
    BatchNormalization(),
    Dense(1, activation = "sigmoid")
@@ -158,6 +162,8 @@ model = tf.keras.Sequential([
 model.summary()
 
 # Nếu trong quá trình huấn luyện mà găp phải lỗi thì thêm tham số sau đây: run_eagerly = True vào model.compile để thông báo lỗi chi tiết hơn
+
+
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=0.01),
     loss=tf.keras.losses.BinaryCrossentropy(),
